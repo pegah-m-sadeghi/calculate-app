@@ -5,23 +5,19 @@ import { useState, useEffect } from "react";
 function PaymentPlan() {
   const [mortgageAmount, setMortgageAmount] = useState(0);
   const [interestRate, setInterestRate] = useState(0);
-  const [amortizationPeriodYear, setAmortizationPeriodYear] =
-    useState("1 year");
-  const [amortizationPeriodMonth, setAmortizationPeriodMonth] =
-    useState("1 month");
-  const [totalAmortizationPeriod, setTotalAmortizationPeriod] = useState(0);
-  const [paymentFreq, setPaymentFreq] = useState("Monthly");
-  const [term, setTerm] = useState("1 year");
+  const [amortizationPeriodYear, setAmortizationPeriodYear] = useState(1);
+  const [amortizationPeriodMonth, setAmortizationPeriodMonth] = useState(1);
+  const [paymentFreq, setPaymentFreq] = useState(50);
+  const [term, setTerm] = useState(1);
   const [prePaymentAmount, setPrePaymentAmount] = useState(0);
-  const [prePaymentFreq, setPrePaymentFreq] = useState("One time");
-  const [startWith, setStartWith] = useState(0);
+  const [prePaymentFreq, setPrePaymentFreq] = useState(10);
+  const [startWith, setStartWith] = useState(1);
   const [termNumberOfPayments, setTermNumberOfPayments] = useState(0);
   const [amortizationNumberOfPayments, setAmortizationNumberOfPayments] =
     useState(0);
   const [amortizationMortgagePayment, setAmortizationMortgagePayment] =
     useState(0);
   const [termMortgagePayment, setTermMortgagePayment] = useState(0);
-  const [mortgagePayment, setMortgagePayment] = useState(0);
   const [amortizationPrepayment, setAmortizationPrepayment] = useState(0);
   const [termPrepayment, setTermPrepayment] = useState(0);
   const [amortizationPrincipalPayments, setAmortizationPrincipalPayments] =
@@ -32,99 +28,224 @@ function PaymentPlan() {
   const [termInterestPayments, setTermInterestPayments] = useState(0);
   const [amortizationTotalCost, setAmortizationTotalCost] = useState(0);
   const [termTotalCost, setTermTotalCost] = useState(0);
-  const yearOptions = ["1 year", "2 years", "3 years", "25 years"];
-  const monthOptions = ["1 month", "2 months", "3 months"];
+  const yearOptions = [
+    { value: "1 year", key: 1 },
+    { value: "2 years", key: 2 },
+    { value: "3 years", key: 3 },
+    { value: "4 years", key: 4 },
+    { value: "5 years", key: 5 },
+    { value: "6 years", key: 6 },
+    { value: "7 years", key: 7 },
+    { value: "8 years", key: 8 },
+    { value: "9 years", key: 9 },
+    { value: "25 years", key: 25 },
+  ];
+  const monthOptions = [
+    { value: "1 month", key: 1 },
+    { value: "2 months", key: 2 },
+    { value: "3 months", key: 3 },
+    { value: "4 months", key: 4 },
+    { value: "5 months", key: 5 },
+    { value: "6 months", key: 6 },
+    { value: "7 months", key: 7 },
+    { value: "8 months", key: 8 },
+    { value: "9 months", key: 9 },
+    { value: "10 months", key: 10 },
+  ];
   const frequencyOptions = [
-    "Accelerated Weekly",
-    "Weekly",
-    "Accelerated Bi-weekly",
-    "Bi-Weekly",
-    "Semi-monthly",
-    "Monthly",
+    { value: "Accelerated Weekly", key: 50 },
+    { value: "Weekly", key: 40 },
+    { value: "Accelerated Bi-weekly", key: 30 },
+    { value: "Bi-Weekly", key: 20 },
+    { value: "Semi-monthly", key: 15 },
+    { value: "Monthly", key: 10 },
   ];
   const termOptions = [
-    "1 year",
-    "2 years",
-    "3 years",
-    "4 years",
-    "5 years",
-    "6 years",
-    "7 years",
-    "8 years",
-    "9 years",
-    "10 years",
+    { value: "1 year", key: 1 },
+    { value: "2 years", key: 2 },
+    { value: "3 years", key: 3 },
+    { value: "4 years", key: 4 },
+    { value: "5 years", key: 5 },
+    { value: "6 years", key: 6 },
+    { value: "7 years", key: 7 },
+    { value: "8 years", key: 8 },
+    { value: "9 years", key: 9 },
+    { value: "10 years", key: 10 },
   ];
   const preFrequencyOptions = [
-    "One time",
-    "Each year",
-    "Same as regular payment",
+    { value: "One time", key: 10 },
+    { value: "Each year", key: 15 },
+    { value: "Same as regular payment", key: 5 },
   ];
-  let numberOfFreq = 0;
-  function calcNumberOfFreq() {
-    if (paymentFreq === "Weekly") {
-      numberOfFreq += 40;
-    } else if (paymentFreq === "Accelerated Weekly") {
-      numberOfFreq += 30;
-    } else if (paymentFreq === "Bi-Weekly") {
-      numberOfFreq += 25;
-    } else if (paymentFreq === "Accelerated Bi-weekly") {
-      numberOfFreq += 15;
-    } else if (paymentFreq === "Semi-monthly") {
-      numberOfFreq += 10;
-    } else if (paymentFreq === "Monthly") {
-      numberOfFreq += 5;
-    }
-    return numberOfFreq;
+  let totalAmortizationCost = 0;
+  let totalTermCost = 0;
+  function calcNumberOfPayments(
+    amortizationPeriodYear_i,
+    amortizationPeriodMonth_i,
+    prePaymentAmount_i,
+    paymentFreq_i
+  ) {
+    let numberOfPayments = 0;
+    let term = 0;
+    numberOfPayments = (
+      parseInt(amortizationPeriodYear_i) * 12 +
+      parseInt(amortizationPeriodMonth_i) +
+      parseInt(prePaymentAmount_i) * parseInt(paymentFreq_i)
+    ).toFixed(1);
+    term = (parseInt(prePaymentAmount_i) * parseInt(paymentFreq_i)).toFixed(1);
+    return [numberOfPayments, term];
   }
-  calcNumberOfFreq();
+  function calcMortgagePayment(
+    interestRate_i,
+    amortizationPeriodYear_i,
+    amortizationPeriodMonth_i,
+    mortgageAmount_i,
+    startWith_i
+  ) {
+    let mortgatePayment = 0;
+    let term = 0;
+    mortgatePayment = (
+      parseInt(amortizationPeriodYear_i) * 12 +
+      parseInt(amortizationPeriodMonth_i) +
+      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
+      parseInt(startWith_i)
+    ).toFixed(1);
+    term = (
+      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
+      parseInt(startWith_i)
+    ).toFixed(1);
+    return [mortgatePayment, term];
+  }
+  function calcPrepayment(
+    interestRate_i,
+    prePaymentAmount_i,
+    prePaymentFreq_i,
+    mortgageAmount_i,
+    startWith_i
+  ) {
+    let prePayment = 0;
+    let term = 0;
+    prePayment = (
+      parseInt(prePaymentAmount_i) * parseInt(prePaymentFreq_i) +
+      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
+      parseInt(startWith_i)
+    ).toFixed(1);
+    term = (
+      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
+      parseInt(startWith_i)
+    ).toFixed(1);
+    return [prePayment, term];
+  }
+  function calcPrincipalPayments(
+    interestRate_i,
+    prePaymentFreq_i,
+    paymentFreq_i,
+    term_i,
+    mortgageAmount_i
+  ) {
+    let principalPayments = 0;
+    let term = 0;
+    principalPayments = (
+      parseInt(prePaymentFreq_i) +
+      parseInt(paymentFreq_i) +
+      parseInt(term_i) +
+      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12
+    ).toFixed(1);
+    term = (
+      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) /
+      12
+    ).toFixed(1);
+    return [principalPayments, term];
+  }
+  function calcInterestPayments(
+    interestRate_i,
+    prePaymentFreq_i,
+    paymentFreq_i,
+    term_i
+  ) {
+    let interestPayments = 0;
+    let interestTerm = 0;
+    interestPayments = (
+      (parseInt(prePaymentFreq_i) * parseInt(interestRate_i)) / 12 +
+      (parseInt(paymentFreq_i) * parseInt(interestRate_i)) / 12 +
+      parseInt(term_i) * 12
+    ).toFixed(1);
+    interestTerm = (
+      (parseInt(paymentFreq_i) * parseInt(interestRate_i)) /
+      12
+    ).toFixed(1);
+    return [interestPayments, interestTerm];
+  }
 
-  let numberOfPreFreq = 0;
-  function calcNumberOfPreFreq() {
-    if (prePaymentFreq === "One time") {
-      numberOfPreFreq += 40;
-    } else if (prePaymentFreq === "Each year") {
-      numberOfPreFreq += 30;
-    } else if (prePaymentFreq === "Same as regular payment") {
-      numberOfPreFreq += 20;
-    }
-    return numberOfPreFreq;
-  }
-  calcNumberOfPreFreq();
   useEffect(() => {
-    setTotalAmortizationPeriod(
-      parseInt(amortizationPeriodYear) * 12 +
-        parseInt(amortizationPeriodMonth) +
-        parseInt(prePaymentAmount) * numberOfFreq
+    let [numberOfPayment, numberOfPayment_1] = calcNumberOfPayments(
+      amortizationPeriodYear,
+      amortizationPeriodMonth,
+      prePaymentAmount,
+      paymentFreq
     );
-    setMortgagePayment(numberOfFreq + numberOfPreFreq + parseInt(startWith));
+    let [mortgagePayment, mortgagePayment_1] = calcMortgagePayment(
+      amortizationPeriodYear,
+      amortizationPeriodMonth,
+      mortgageAmount,
+      interestRate,
+      startWith
+    );
+    let [prePayment, prePayment_1] = calcPrepayment(
+      interestRate,
+      prePaymentAmount,
+      prePaymentFreq,
+      mortgageAmount,
+      startWith
+    );
+    let [principalPayments, principalPayments_1] = calcPrincipalPayments(
+      interestRate,
+      prePaymentFreq,
+      paymentFreq,
+      term,
+      mortgageAmount
+    );
+    let [interestPayments, interestPayments_1] = calcInterestPayments(
+      interestRate,
+      prePaymentFreq,
+      paymentFreq,
+      term
+    );
+    totalAmortizationCost =
+      parseInt(numberOfPayment) +
+      parseInt(mortgagePayment) +
+      parseInt(prePayment) +
+      parseInt(principalPayments) +
+      parseInt(interestPayments);
+    totalTermCost =
+      parseInt(numberOfPayment_1) +
+      parseInt(mortgagePayment_1) +
+      parseInt(prePayment_1) +
+      parseInt(principalPayments_1) +
+      parseInt(interestPayments_1);
+    setAmortizationNumberOfPayments(numberOfPayment);
+    setAmortizationMortgagePayment(mortgagePayment);
+    setAmortizationPrepayment(prePayment);
+    setAmortizationPrincipalPayments(principalPayments);
+    setAmortizationInterestPayments(interestPayments);
+    setAmortizationTotalCost(totalAmortizationCost);
+    setTermNumberOfPayments(numberOfPayment_1);
+    setTermMortgagePayment(mortgagePayment_1);
+    setTermPrepayment(prePayment_1);
+    setTermPrincipalPayments(principalPayments_1);
+    setTermInterestPayments(interestPayments_1);
+    setTermTotalCost(totalTermCost);
   }, [
     amortizationPeriodYear,
     amortizationPeriodMonth,
-    numberOfFreq,
-    numberOfPreFreq,
+    paymentFreq,
+    prePaymentFreq,
     prePaymentAmount,
     startWith,
+    term,
+    mortgageAmount,
+    interestRate,
   ]);
-  useEffect(() => {
-    setAmortizationNumberOfPayments(totalAmortizationPeriod);
-    setAmortizationMortgagePayment(totalAmortizationPeriod);
-    setAmortizationPrepayment(totalAmortizationPeriod);
-    setAmortizationPrincipalPayments(totalAmortizationPeriod);
-    setAmortizationInterestPayments(totalAmortizationPeriod);
-    setAmortizationTotalCost(totalAmortizationPeriod);
-  }, [totalAmortizationPeriod]);
-  useEffect(() => {
-    setTermNumberOfPayments(
-      parseInt(mortgageAmount) +
-        parseInt(interestRate) +
-        totalAmortizationPeriod * parseInt(term) * 12
-    );
-    setTermMortgagePayment(totalAmortizationPeriod);
-    setTermPrepayment(totalAmortizationPeriod);
-    setTermPrincipalPayments(totalAmortizationPeriod);
-    setTermInterestPayments(totalAmortizationPeriod);
-    setTermTotalCost(totalAmortizationPeriod);
-  }, [totalAmortizationPeriod, mortgageAmount, interestRate, term]);
 
   return (
     <>
@@ -177,13 +298,15 @@ function PaymentPlan() {
               name={"paymentFreq"}
               options={frequencyOptions}
               value={paymentFreq}
-              handleChange={(event) => setPaymentFreq(event.target.value)}
+              handleChange={(event) => {
+                setPaymentFreq(event.target.value);
+              }}
             />
             <SelectBar
               title={"Term:"}
               name={"term"}
               options={termOptions}
-              value={term ? term : termOptions[4]}
+              value={term}
               handleChange={(event) => setTerm(event.target.value)}
             />
           </div>

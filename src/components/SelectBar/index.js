@@ -25,8 +25,8 @@ const SelectBar = (props) => {
           </option>
           {props.options.map((option) => {
             return (
-              <option key={option} value={option} label={option}>
-                {option}
+              <option key={option.key} value={option.key} label={option.value}>
+                {option.value}
               </option>
             );
           })}
