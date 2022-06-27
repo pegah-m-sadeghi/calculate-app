@@ -266,8 +266,6 @@ const PaymentPlan = () => {
           </tr>
           <tr>
             <td class="bg-gray-100 border px-8 py-4">Number of Payments</td>
-            {/* <td class="border px-8 py-4">{numberOfPayment}</td>
-            <td class="border px-8 py-4">{numberOfPayment_1}</td> */}
             <td class="bg-gray-100 border px-8 py-4">{termNumberOfPayments}</td>
             <td class="bg-gray-100 border px-8 py-4">
               {amortizationNumberOfPayments}
@@ -275,15 +273,11 @@ const PaymentPlan = () => {
           </tr>
           <tr>
             <td class="border px-8 py-4">Mortgage Payment</td>
-            {/* <td class="border px-8 py-4">{mortgagePayment}</td>
-            <td class="border px-8 py-4">{mortgagePayment_1}</td> */}
             <td class="border px-8 py-4">{termMortgagePayment}</td>
             <td class="border px-8 py-4">{amortizationMortgagePayment}</td>
           </tr>
           <tr>
             <td class="bg-gray-100 border px-8 py-4">Prepayment</td>
-            {/* <td class="border px-8 py-4">{prePayment}</td>
-            <td class="border px-8 py-4">{prePayment_1}</td> */}
             <td class="bg-gray-100 border px-8 py-4">{termPrepayment}</td>
             <td class="bg-gray-100 border px-8 py-4">
               {amortizationPrepayment}
@@ -291,15 +285,11 @@ const PaymentPlan = () => {
           </tr>
           <tr>
             <td class="border px-8 py-4">Principal Payments</td>
-            {/* <td class="border px-8 py-4">{principalPayments}</td>
-            <td class="border px-8 py-4">{principalPayments_1}</td> */}
             <td class="border px-8 py-4">{termPrincipalPayments}</td>
             <td class="border px-8 py-4">{amortizationPrincipalPayments}</td>
           </tr>
           <tr>
             <td class="bg-gray-100 border px-8 py-4">Interest Payments</td>
-            {/* <td class="border px-8 py-4">{interestPayments}</td>
-            <td class="border px-8 py-4">{interestPayments_1}</td> */}
             <td class="bg-gray-100 border px-8 py-4">{termInterestPayments}</td>
             <td class="bg-gray-100 border px-8 py-4">
               {amortizationInterestPayments}
