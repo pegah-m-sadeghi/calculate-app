@@ -5,7 +5,7 @@ const SelectBar = (props) => {
     <div className="grid grid-cols-2 gap-2 px-6">
       <div className="mb-5 mt-6">
         <label
-          for={props.name}
+          htmlFor={props.name}
           className="w-1/2 text-sm font-medium text-gray-900 dark:text-gray-400"
         >
           {" "}
@@ -18,7 +18,7 @@ const SelectBar = (props) => {
           id={props.name}
           name={props.name}
           value={props.value}
-          onChange={props.handleChange}
+          onChange={props.handlechange}
         >
           <option value="" disabled>
             {props.placeholder}

@@ -78,7 +78,6 @@ const PaymentPlan = () => {
     { value: "Each year", key: 15 },
     { value: "Same as regular payment", key: 5 },
   ];
-
   const equations = new Equations();
   let totalAmortizationCost = 0;
   let totalTermCost = 0;
@@ -164,20 +163,20 @@ const PaymentPlan = () => {
               </h3>
             </div>
             <Input
-              inputType={"text"}
+              inputtype={"text"}
               title={"Mortgage Amount:"}
               name={"mortgageAmount"}
               value={mortgageAmount}
               placeholder={"100,000.00"}
-              handleChange={(event) => setMortgageAmount(event.target.value)}
+              handlechange={(event) => setMortgageAmount(event.target.value)}
             />
             <Input
-              inputType={"text"}
+              inputtype={"text"}
               title={"Interest Rate:"}
               name={"interestRate"}
               placeholder={"5.00"}
               value={interestRate}
-              handleChange={(event) => setInterestRate(event.target.value)}
+              handlechange={(event) => setInterestRate(event.target.value)}
             />
             <SelectBar
               title={"Amortization Period:"}
@@ -186,7 +185,7 @@ const PaymentPlan = () => {
               value={
                 amortizationPeriodYear ? amortizationPeriodYear : yearOptions[0]
               }
-              handleChange={(event) =>
+              handlechange={(event) =>
                 setAmortizationPeriodYear(event.target.value)
               }
             />
@@ -195,7 +194,7 @@ const PaymentPlan = () => {
               options={monthOptions}
               value={amortizationPeriodMonth}
               placeholder={""}
-              handleChange={(event) =>
+              handlechange={(event) =>
                 setAmortizationPeriodMonth(event.target.value)
               }
             />
@@ -204,7 +203,7 @@ const PaymentPlan = () => {
               name={"paymentFreq"}
               options={frequencyOptions}
               value={paymentFreq}
-              handleChange={(event) => {
+              handlechange={(event) => {
                 setPaymentFreq(event.target.value);
               }}
             />
@@ -213,7 +212,7 @@ const PaymentPlan = () => {
               name={"term"}
               options={termOptions}
               value={term}
-              handleChange={(event) => setTerm(event.target.value)}
+              handlechange={(event) => setTerm(event.target.value)}
             />
           </div>
         </form>
@@ -226,12 +225,12 @@ const PaymentPlan = () => {
                 </h3>
               </div>
               <Input
-                inputType={"text"}
+                inputtype={"text"}
                 title={"Prepayment Amount:"}
                 name={"prePaymentAmount"}
                 value={prePaymentAmount}
                 placeholder={"0.00"}
-                handleChange={(event) =>
+                handlechange={(event) =>
                   setPrePaymentAmount(event.target.value)
                 }
               />{" "}
@@ -240,15 +239,15 @@ const PaymentPlan = () => {
                 name={"prePaymentFreq"}
                 options={preFrequencyOptions}
                 value={prePaymentFreq}
-                handleChange={(event) => setPrePaymentFreq(event.target.value)}
+                handlechange={(event) => setPrePaymentFreq(event.target.value)}
               />{" "}
               <Input
-                inputType={"text"}
+                inputtype={"text"}
                 title={"Start With Payment:"}
                 name={"startWith"}
                 placeholder={"1"}
                 value={startWith}
-                handleChange={(event) => setStartWith(event.target.value)}
+                handlechange={(event) => setStartWith(event.target.value)}
               />{" "}
             </div>
           </form>
@@ -256,52 +255,67 @@ const PaymentPlan = () => {
       </div>
       <div className="w-full max-w-xl mt-10 ml-auto mr-auto">
         <h3 className="font-medium leading-6 text-lg">Calculation Summary</h3>
-        <table class="shadow-lg bg-white">
-          <tr>
-            <th class="bg-white border text-left px-8 py-4">Category</th>
-            <th class="bg-white border text-left px-8 py-4">Term</th>
-            <th class="bg-white border text-left px-8 py-4">
-              Amortization Period
-            </th>
-          </tr>
-          <tr>
-            <td class="bg-gray-100 border px-8 py-4">Number of Payments</td>
-            <td class="bg-gray-100 border px-8 py-4">{termNumberOfPayments}</td>
-            <td class="bg-gray-100 border px-8 py-4">
-              {amortizationNumberOfPayments}
-            </td>
-          </tr>
-          <tr>
-            <td class="border px-8 py-4">Mortgage Payment</td>
-            <td class="border px-8 py-4">{termMortgagePayment}</td>
-            <td class="border px-8 py-4">{amortizationMortgagePayment}</td>
-          </tr>
-          <tr>
-            <td class="bg-gray-100 border px-8 py-4">Prepayment</td>
-            <td class="bg-gray-100 border px-8 py-4">{termPrepayment}</td>
-            <td class="bg-gray-100 border px-8 py-4">
-              {amortizationPrepayment}
-            </td>
-          </tr>
-          <tr>
-            <td class="border px-8 py-4">Principal Payments</td>
-            <td class="border px-8 py-4">{termPrincipalPayments}</td>
-            <td class="border px-8 py-4">{amortizationPrincipalPayments}</td>
-          </tr>
-          <tr>
-            <td class="bg-gray-100 border px-8 py-4">Interest Payments</td>
-            <td class="bg-gray-100 border px-8 py-4">{termInterestPayments}</td>
-            <td class="bg-gray-100 border px-8 py-4">
-              {amortizationInterestPayments}
-            </td>
-          </tr>
-          <tr>
-            <td class="bg-gray-100 border px-8 py-4">Total Cost</td>
-            <td class="bg-gray-100 border px-8 py-4">{termTotalCost}</td>
-            <td class="bg-gray-100 border px-8 py-4">
-              {amortizationTotalCost}
-            </td>
-          </tr>
+        <table className="shadow-lg bg-white">
+          <thead></thead>
+          <tbody>
+            <tr>
+              <th className="bg-white border text-left px-8 py-4">Category</th>
+              <th className="bg-white border text-left px-8 py-4">Term</th>
+              <th className="bg-white border text-left px-8 py-4">
+                Amortization Period
+              </th>
+            </tr>
+            <tr>
+              <td className="bg-gray-100 border px-8 py-4">
+                Number of Payments
+              </td>
+              <td className="bg-gray-100 border px-8 py-4">
+                {termNumberOfPayments}
+              </td>
+              <td className="bg-gray-100 border px-8 py-4">
+                {amortizationNumberOfPayments}
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-8 py-4">Mortgage Payment</td>
+              <td className="border px-8 py-4">{termMortgagePayment}</td>
+              <td className="border px-8 py-4">
+                {amortizationMortgagePayment}
+              </td>
+            </tr>
+            <tr>
+              <td className="bg-gray-100 border px-8 py-4">Prepayment</td>
+              <td className="bg-gray-100 border px-8 py-4">{termPrepayment}</td>
+              <td className="bg-gray-100 border px-8 py-4">
+                {amortizationPrepayment}
+              </td>
+            </tr>
+            <tr>
+              <td className="border px-8 py-4">Principal Payments</td>
+              <td className="border px-8 py-4">{termPrincipalPayments}</td>
+              <td className="border px-8 py-4">
+                {amortizationPrincipalPayments}
+              </td>
+            </tr>
+            <tr>
+              <td className="bg-gray-100 border px-8 py-4">
+                Interest Payments
+              </td>
+              <td className="bg-gray-100 border px-8 py-4">
+                {termInterestPayments}
+              </td>
+              <td className="bg-gray-100 border px-8 py-4">
+                {amortizationInterestPayments}
+              </td>
+            </tr>
+            <tr>
+              <td className="bg-gray-100 border px-8 py-4">Total Cost</td>
+              <td className="bg-gray-100 border px-8 py-4">{termTotalCost}</td>
+              <td className="bg-gray-100 border px-8 py-4">
+                {amortizationTotalCost}
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </>

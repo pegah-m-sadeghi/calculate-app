@@ -11,7 +11,7 @@ const FirstDes = () => {
         <div className="text-left mb-3">
           <p> Over the 25-year amortization period, you will:</p>
         </div>
-        <ul class="list-disc list-inside text-left">
+        <ul className="list-disc list-inside text-left">
           <li>have made 300 monthly (12x per year) payments of $581.60.</li>
           <li>
             have paid $100,000.00 in principal, $74,481.50 in interest, for a
@@ -21,7 +21,7 @@ const FirstDes = () => {
         <div className="text-left mt-3 mb-3">
           <p> Over the 5-year term, you will:</p>
         </div>
-        <ul class="list-disc list-inside text-left">
+        <ul className="list-disc list-inside text-left">
           <li>have made 60 monthly (12x per year) payments of $581.60.</li>
           <li>
             have paid $11,492.50 in principal, $23,403.80 in interest, for a
@@ -31,7 +31,7 @@ const FirstDes = () => {
         <div className="text-left mt-3 mb-3">
           <p> At the end of your 5-year term, you will:</p>
         </div>
-        <ul class="list-disc list-inside text-left">
+        <ul className="list-disc list-inside text-left">
           <li>have a balance of $88,507.50.</li>
         </ul>
         <div className="text-left mb- mt-10">

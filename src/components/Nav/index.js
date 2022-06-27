@@ -1,31 +1,31 @@
 const Nav = () => {
   return (
     <>
-      <ul class="flex ml-20 mt-10">
-        <li class="mr-6">
-          <a class="text-blue-500 hover:text-blue-800" href="#">
+      <ul className="flex ml-20 mt-10">
+        <li className="mr-6">
+          <a className="text-blue-500 hover:text-blue-800" href="#">
             Home
           </a>
         </li>
-        <li class="mr-6">
+        <li className="mr-6">
           <a
-            class="text-blue-500 hover:text-blue-800 before:content-['>'] "
+            className="text-blue-500 hover:text-blue-800 before:content-['>'] "
             href="#"
           >
             Money and finances
           </a>
         </li>
-        <li class="mr-6">
+        <li className="mr-6">
           <a
-            class="text-blue-500 hover:text-blue-800 before:content-['>'] "
+            className="text-blue-500 hover:text-blue-800 before:content-['>'] "
             href="#"
           >
             Debt and borrowing
           </a>
         </li>
-        <li class="mr-6">
+        <li className="mr-6">
           <a
-            class="text-blue-500  hover:text-blue-800 before:content-['>'] "
+            className="text-blue-500  hover:text-blue-800 before:content-['>'] "
             href="#"
           >
             Mortgages

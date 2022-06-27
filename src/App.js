@@ -5,7 +5,6 @@ import MortgageForm from "./components/MortgageForm";
 import Descriptions from "./components/Descriptions";
 import Footer from "./components/Footer";
 import PaymentPlan from "./components/Payment/PaymentPlan";
-import Equations from "./components/Payment/Equations/Equations";
 
 function App() {
   return (
