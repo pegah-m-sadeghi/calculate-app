@@ -2,7 +2,8 @@ import React from "react";
 import Input from "../../Input";
 import SelectBar from "../../SelectBar";
 import { useState, useEffect } from "react";
-function PaymentPlan() {
+import Equations from "../Equations/Equations";
+const PaymentPlan = () => {
   const [mortgageAmount, setMortgageAmount] = useState(0);
   const [interestRate, setInterestRate] = useState(0);
   const [amortizationPeriodYear, setAmortizationPeriodYear] = useState(1);
@@ -77,135 +78,40 @@ function PaymentPlan() {
     { value: "Each year", key: 15 },
     { value: "Same as regular payment", key: 5 },
   ];
+
+  const equations = new Equations();
   let totalAmortizationCost = 0;
   let totalTermCost = 0;
-  function calcNumberOfPayments(
-    amortizationPeriodYear_i,
-    amortizationPeriodMonth_i,
-    prePaymentAmount_i,
-    paymentFreq_i
-  ) {
-    let numberOfPayments = 0;
-    let term = 0;
-    numberOfPayments = (
-      parseInt(amortizationPeriodYear_i) * 12 +
-      parseInt(amortizationPeriodMonth_i) +
-      parseInt(prePaymentAmount_i) * parseInt(paymentFreq_i)
-    ).toFixed(1);
-    term = (parseInt(prePaymentAmount_i) * parseInt(paymentFreq_i)).toFixed(1);
-    return [numberOfPayments, term];
-  }
-  function calcMortgagePayment(
-    interestRate_i,
-    amortizationPeriodYear_i,
-    amortizationPeriodMonth_i,
-    mortgageAmount_i,
-    startWith_i
-  ) {
-    let mortgatePayment = 0;
-    let term = 0;
-    mortgatePayment = (
-      parseInt(amortizationPeriodYear_i) * 12 +
-      parseInt(amortizationPeriodMonth_i) +
-      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
-      parseInt(startWith_i)
-    ).toFixed(1);
-    term = (
-      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
-      parseInt(startWith_i)
-    ).toFixed(1);
-    return [mortgatePayment, term];
-  }
-  function calcPrepayment(
-    interestRate_i,
-    prePaymentAmount_i,
-    prePaymentFreq_i,
-    mortgageAmount_i,
-    startWith_i
-  ) {
-    let prePayment = 0;
-    let term = 0;
-    prePayment = (
-      parseInt(prePaymentAmount_i) * parseInt(prePaymentFreq_i) +
-      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
-      parseInt(startWith_i)
-    ).toFixed(1);
-    term = (
-      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12 +
-      parseInt(startWith_i)
-    ).toFixed(1);
-    return [prePayment, term];
-  }
-  function calcPrincipalPayments(
-    interestRate_i,
-    prePaymentFreq_i,
-    paymentFreq_i,
-    term_i,
-    mortgageAmount_i
-  ) {
-    let principalPayments = 0;
-    let term = 0;
-    principalPayments = (
-      parseInt(prePaymentFreq_i) +
-      parseInt(paymentFreq_i) +
-      parseInt(term_i) +
-      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) / 12
-    ).toFixed(1);
-    term = (
-      (parseInt(mortgageAmount_i) * parseInt(interestRate_i)) /
-      12
-    ).toFixed(1);
-    return [principalPayments, term];
-  }
-  function calcInterestPayments(
-    interestRate_i,
-    prePaymentFreq_i,
-    paymentFreq_i,
-    term_i
-  ) {
-    let interestPayments = 0;
-    let interestTerm = 0;
-    interestPayments = (
-      (parseInt(prePaymentFreq_i) * parseInt(interestRate_i)) / 12 +
-      (parseInt(paymentFreq_i) * parseInt(interestRate_i)) / 12 +
-      parseInt(term_i) * 12
-    ).toFixed(1);
-    interestTerm = (
-      (parseInt(paymentFreq_i) * parseInt(interestRate_i)) /
-      12
-    ).toFixed(1);
-    return [interestPayments, interestTerm];
-  }
-
   useEffect(() => {
-    let [numberOfPayment, numberOfPayment_1] = calcNumberOfPayments(
+    let [numberOfPayment, numberOfPayment_1] = equations.calcNumberOfPayments(
       amortizationPeriodYear,
       amortizationPeriodMonth,
       prePaymentAmount,
       paymentFreq
     );
-    let [mortgagePayment, mortgagePayment_1] = calcMortgagePayment(
+    let [mortgagePayment, mortgagePayment_1] = equations.calcMortgagePayment(
       amortizationPeriodYear,
       amortizationPeriodMonth,
       mortgageAmount,
       interestRate,
       startWith
     );
-    let [prePayment, prePayment_1] = calcPrepayment(
+    let [prePayment, prePayment_1] = equations.calcPrepayment(
       interestRate,
       prePaymentAmount,
       prePaymentFreq,
       mortgageAmount,
       startWith
     );
-    let [principalPayments, principalPayments_1] = calcPrincipalPayments(
-      interestRate,
-      prePaymentFreq,
-      paymentFreq,
-      term,
-      mortgageAmount
-    );
-    let [interestPayments, interestPayments_1] = calcInterestPayments(
+    let [principalPayments, principalPayments_1] =
+      equations.calcPrincipalPayments(
+        interestRate,
+        prePaymentFreq,
+        paymentFreq,
+        term,
+        mortgageAmount
+      );
+    let [interestPayments, interestPayments_1] = equations.calcInterestPayments(
       interestRate,
       prePaymentFreq,
       paymentFreq,
@@ -360,6 +266,8 @@ function PaymentPlan() {
           </tr>
           <tr>
             <td class="bg-gray-100 border px-8 py-4">Number of Payments</td>
+            {/* <td class="border px-8 py-4">{numberOfPayment}</td>
+            <td class="border px-8 py-4">{numberOfPayment_1}</td> */}
             <td class="bg-gray-100 border px-8 py-4">{termNumberOfPayments}</td>
             <td class="bg-gray-100 border px-8 py-4">
               {amortizationNumberOfPayments}
@@ -367,11 +275,15 @@ function PaymentPlan() {
           </tr>
           <tr>
             <td class="border px-8 py-4">Mortgage Payment</td>
+            {/* <td class="border px-8 py-4">{mortgagePayment}</td>
+            <td class="border px-8 py-4">{mortgagePayment_1}</td> */}
             <td class="border px-8 py-4">{termMortgagePayment}</td>
             <td class="border px-8 py-4">{amortizationMortgagePayment}</td>
           </tr>
           <tr>
             <td class="bg-gray-100 border px-8 py-4">Prepayment</td>
+            {/* <td class="border px-8 py-4">{prePayment}</td>
+            <td class="border px-8 py-4">{prePayment_1}</td> */}
             <td class="bg-gray-100 border px-8 py-4">{termPrepayment}</td>
             <td class="bg-gray-100 border px-8 py-4">
               {amortizationPrepayment}
@@ -379,11 +291,15 @@ function PaymentPlan() {
           </tr>
           <tr>
             <td class="border px-8 py-4">Principal Payments</td>
+            {/* <td class="border px-8 py-4">{principalPayments}</td>
+            <td class="border px-8 py-4">{principalPayments_1}</td> */}
             <td class="border px-8 py-4">{termPrincipalPayments}</td>
             <td class="border px-8 py-4">{amortizationPrincipalPayments}</td>
           </tr>
           <tr>
             <td class="bg-gray-100 border px-8 py-4">Interest Payments</td>
+            {/* <td class="border px-8 py-4">{interestPayments}</td>
+            <td class="border px-8 py-4">{interestPayments_1}</td> */}
             <td class="bg-gray-100 border px-8 py-4">{termInterestPayments}</td>
             <td class="bg-gray-100 border px-8 py-4">
               {amortizationInterestPayments}
@@ -400,5 +316,5 @@ function PaymentPlan() {
       </div>
     </>
   );
-}
+};
 export default PaymentPlan;
